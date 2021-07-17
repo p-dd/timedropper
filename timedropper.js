@@ -14,11 +14,11 @@
                 _td_event = null,
                 _td_options = $.extend({
 
-                    format: 'h:mm a',
+                    format: 'HH:mm',
                     autoswitch: false,
                     meridians: false,
                     mousewheel: false,
-                    setCurrentTime: true,
+                    setCurrentTime: false,
                     init_animation: "fadein",
                     primaryColor: "#1977CC",
                     borderColor: "#1977CC",
@@ -61,7 +61,7 @@
                 'readonly': true
             }).addClass('td-input');
 
-            $('body').append('<div class="td-wrap td-n2" id="td-clock-' + _td_id + '"><div class="td-overlay"></div><div class="td-clock td-init"><div class="td-deg td-n"><div class="td-select"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 35.4" enable-background="new 0 0 100 35.4" xml:space="preserve"><g><path fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M98.1,33C85.4,21.5,68.5,14.5,50,14.5S14.6,21.5,1.9,33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1.9" y1="33" x2="1.9" y2="28.6"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1.9" y1="33" x2="6.3" y2="33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="98.1" y1="33" x2="93.7" y2="33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="98.1" y1="33" x2="98.1" y2="28.6"/></g></svg></div></div><div class="td-medirian"><span class="td-icon-am td-n">AM</span><span class="td-icon-pm td-n">PM</span></div><div class="td-lancette"><div></div><div></div></div><div class="td-time"><span class="on"></span>:<span></span></div></div></div>');
+            $('body').append('<div class="td-wrap td-n2" id="td-clock-' + _td_id + '"><div class="td-overlay"></div><div class="td-clock td-init"><div class="td-deg td-n"><div class="td-select"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 35.4" enable-background="new 0 0 100 35.4" xml:space="preserve"><g><path fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M98.1,33C85.4,21.5,68.5,14.5,50,14.5S14.6,21.5,1.9,33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1.9" y1="33" x2="1.9" y2="28.6"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1.9" y1="33" x2="6.3" y2="33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="98.1" y1="33" x2="93.7" y2="33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="98.1" y1="33" x2="98.1" y2="28.6"/></g></svg></div></div><div class="td-medirian"><span class="td-icon-am td-n">AM</span><span class="td-icon-pm td-n">PM</span></div><div class="td-lancette"><div></div><div></div></div><div class="td-time"><span class="on" id="hours"></span>:<span id="minutes"></span></div></div></div>');
 
             $('head').append('<style>#td-clock-' + _td_id + ' .td-clock {color:' + _td_options.textColor + ';background: ' + _td_options.backgroundColor + '; box-shadow: 0 0 0 1px ' + _td_options.borderColor + ',0 0 0 8px rgba(0, 0, 0, 0.05); } #td-clock-' + _td_id + ' .td-clock .td-time span.on { color:' + _td_options.primaryColor + '} #td-clock-' + _td_id + ' .td-clock:before { border-color: ' + _td_options.borderColor + '} #td-clock-' + _td_id + ' .td-select:after { box-shadow: 0 0 0 1px ' + _td_options.borderColor + ' } #td-clock-' + _td_id + ' .td-clock:before,#td-clock-' + _td_id + ' .td-select:after {background: ' + _td_options.backgroundColor + ';} #td-clock-' + _td_id + ' .td-lancette {border: 2px solid ' + _td_options.primaryColor + '; opacity:0.1}#td-clock-' + _td_id + ' .td-lancette div:after { background: ' + _td_options.primaryColor + ';} #td-clock-' + _td_id + ' .td-bulletpoint div:after { background:' + _td_options.primaryColor + '; opacity:0.1}</style>');
 
@@ -292,12 +292,20 @@
                     _td_input_on = false;
 
                     if (_td_options.autoswitch) {
-                        _td_c.find('.td-time span').toggleClass('on');
-                        _td_c.find('.td-time span.on').click();
+                    	if (_td_c.find('.td-time span.on').attr('id') == 'hours') {
+                        	_td_c.find('.td-time span').toggleClass('on');
+                        	_td_c.find('.td-time span.on').click();
+                        } else {
+                        	_td_c.find('.td-time span').toggleClass('on');
+                        	_td_c.find('.td-time span.on').click();
+                        	_td_overlay.click();
+                        }
                     }
 
                     _td_c.find('.td-deg').addClass('td-n');
                     _td_c.find('.td-select').addClass('td-rubber');
+
+                    _td_input.change();
 
                 }
 
@@ -312,53 +320,38 @@
                     h,
                     m;
 
-                if (_td_input.val().length && !_td_options.setCurrentTime) {
+                if (_td_input.val().length) {
 
-                    var reg = /\d+/g,
-                        am;
+                    var reg = /\d+/g;
                     var st = _td_input.val().split(':');
 
-                    if (st) {
-
-                        h = st[0].match(reg);
-                        m = st[1].match(reg);
-                        if (_td_input.val().indexOf("am") != -1 || _td_input.val().indexOf("AM") != -1 || _td_input.val().indexOf("pm") != -1 || _td_input.val().indexOf("PM") != -1) {
-                            if (_td_input.val().indexOf("am") != -1 || _td_input.val().indexOf("AM") != -1) am = true;
-                            else am = false;
-
-                            if (!am) {
-                                if (h < 13) {
-                                    h = parseInt(h) + 12;
-                                    if (h == 24) h = 0;
-                                }
-                            } else if (h == 12) h = 0;
-                        } else if (h == 24) h = 0;
-                    } else {
-
-                        if (!parseInt(_td_span_h.text())) h = _td_num(d.getHours());
-                        else h = _td_num(_td_span_h.text());
-                        if (!parseInt(_td_span_m.text())) m = _td_num(d.getMinutes());
-                        else m = _td_num(_td_span_m.text());
-
-                    }
-
+                    h = st[0].match(reg)[0];
+                    m = st[1].match(reg)[0];
+                    
+                    _td_span_h.attr('data-id', h).text(h);
+                	_td_span_m.attr('data-id', m).text(m);
+                	
+					_td_event_deg = Math.round((h * 360 / 23));
+					_td_rotation(_td_event_deg);
                 } else {
+                
+                    ///if (!parseInt(_td_span_h.text())) h = _td_num(d.getHours());
+                    //else h = _td_num(_td_span_h.text());
+                    //if (!parseInt(_td_span_m.text())) m = _td_num(d.getMinutes());
+                    //else m = _td_num(_td_span_m.text());
+                    h = 0;
+                    m = 0;
 
-                    if (!parseInt(_td_span_h.text())) h = _td_num(d.getHours());
-                    else h = _td_num(_td_span_h.text());
-                    if (!parseInt(_td_span_m.text())) m = _td_num(d.getMinutes());
-                    else m = _td_num(_td_span_m.text());
-
+                    _td_span_h.attr('data-id', h).text(h);
+                	_td_span_m.attr('data-id', m).text(m);
+                
                 }
-
-                _td_span_h.attr('data-id', h).text(h);
-                _td_span_m.attr('data-id', m).text(m);
 
                 _td_event_deg = Math.round((h * 360 / 23));
 
                 _td_c.find('.td-lancette div:first').css('transform', 'rotate(' + Math.round((m * 360 / 59)) + 'deg)');
 
-                _td_rotation(_td_event_deg);
+                //_td_rotation(_td_event_deg);
                 _td_wheel_deg = _td_event_deg;
                 _td_init_deg = -1;
 
